@@ -7,7 +7,7 @@ package factom
 import (
 	"encoding/json"
 
-	"fmt"
+	"errors"
 )
 
 // GetECBalance returns the balance in factoshi (factoid * 1e8) of a given Entry
