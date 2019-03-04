@@ -6,6 +6,8 @@ package factom
 
 import (
 	"encoding/json"
+
+	"fmt"
 )
 
 // GetECBalance returns the balance in factoshi (factoid * 1e8) of a given Entry
@@ -338,7 +340,7 @@ func GetPendingEntries() (string, error) {
 		return "", err
 	}
 	if resp.Error != nil {
-		return "", err
+		return "", errors.New(resp.Error.Message)
 	}
 
 	rBytes := resp.JSONResult()
@@ -361,4 +363,55 @@ func GetPendingTransactions() (string, error) {
 	transList := resp.JSONResult()
 
 	return string(transList), nil
+}
+
+func GetCurrentMinute() (
+	leaderheight,
+	directoryblockheight,
+	minute,
+	currentblockstarttime,
+	currentminutestarttime,
+	currenttime,
+	directoryblockinseconds int64,
+	stalldetected bool,
+	faulttimeout,
+	roundtimeout int64, err error) {
+	type currentminuteResponse struct {
+		Leaderheight            int64 `json:"leaderheight"`
+		Directoryblockheight    int64 `json:"directoryblockheight"`
+		Minute                  int64 `json:"minute"`
+		Currentblockstarttime   int64 `json:"currentblockstarttime"`
+		Currentminutestarttime  int64 `json:"currentminutestarttime"`
+		Currenttime             int64 `json:"currenttime"`
+		Directoryblockinseconds int64 `json:"directoryblockinseconds"`
+		Stalldetected           bool  `json:"stalldetected"`
+		Faulttimeout            int64 `json:"faulttimeout"`
+		Roundtimeout            int64 `json:"roundtimeout"`
+	}
+
+	curmin := new(currentminuteResponse)
+	req := NewJSON2Request("current-minute", APICounter(), nil)
+	resp, err := factomdRequest(req)
+	if err != nil {
+		return
+	} else if resp.Error != nil {
+		err = errors.New(resp.Error.Message)
+		return
+	} else if jerr := json.Unmarshal(resp.JSONResult(), curmin); jerr != nil {
+		err = errors.New(jerr.Error())
+		return
+	}
+
+	return curmin.Leaderheight,
+		curmin.Directoryblockheight,
+		curmin.Minute,
+		curmin.Currentblockstarttime,
+		curmin.Currentminutestarttime,
+		curmin.Currenttime,
+		curmin.Directoryblockinseconds,
+		curmin.Stalldetected,
+		curmin.Faulttimeout,
+		curmin.Roundtimeout,
+		nil
+
 }

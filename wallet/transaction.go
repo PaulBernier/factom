@@ -54,6 +54,9 @@ func (w *Wallet) DeleteTransaction(name string) error {
 	if _, exists := w.transactions[name]; !exists {
 		return ErrTXNotExists
 	}
+	
+	w.txlock.Lock()
+	defer w.txlock.Unlock()
 	delete(w.transactions, name)
 	return nil
 }
