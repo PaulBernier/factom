@@ -8,15 +8,9 @@ import (
 	. "github.com/FactomProject/factom"
 	"testing"
 
-	"os"
-
-	"bytes"
-	"encoding/json"
-	"fmt"
 	"github.com/FactomProject/factom/wallet"
 	"github.com/FactomProject/factom/wallet/wsapi"
-	"io/ioutil"
-	"net/http"
+	"os"
 )
 
 func TestImportAddress(t *testing.T) {
@@ -70,6 +64,7 @@ func TestImportAddress(t *testing.T) {
 	}
 }
 
+/*
 func TestHandleWalletBalances(t *testing.T) {
 	// start the test wallet
 	done, err := StartTestWallet()
@@ -140,7 +135,7 @@ func helper(t *testing.T, addr []string) (*walletcall, string) {
 	}
 	return respEC, ""
 }
-
+*/
 func TestImportKoinify(t *testing.T) {
 	var (
 		good_mnemonic = "yellow yellow yellow yellow yellow yellow yellow" +
