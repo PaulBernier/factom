@@ -77,18 +77,20 @@ func TestGetIdentityKey(t *testing.T) {
 
 func TestMakeBIP44IdentityKey(t *testing.T) {
 	m := "yellow yellow yellow yellow yellow yellow yellow yellow yellow yellow yellow yellow"
-	pub := "idpub1p4YkMzskVrtbK45nBHaikGda9w5SMvKvVsQtgVUfLK5Y8tByb"
-	sec := "idsec2wH72BNR9QZhTMGDbxwLWGrghZQexZvLTros2wCekkc62N9h7s"
+	pub := "idpub2Q7m3YwkQMmNQUVpfcED52b7nFmYFWkiMGGF41srZ9hZZYmC5p"
+	sec := "idsec2VZ2EJ1hoUeQYmFPeFthWts3xsGiPpRdfL4zABjzuHQshX4qvY"
 
 	id, err := MakeBIP44IdentityKey(m, bip32.FirstHardenedChild, 0, 0)
 	if err != nil {
 		t.Error(err)
 	}
 
-	if id.String() != pub {
+	pubderived := id.String()
+	if pubderived != pub {
 		t.Errorf("incorrect public key from 12 words: got %s expecting %s", id.String(), pub)
 	}
-	if id.SecString() != sec {
+	secderived := id.SecString()
+	if secderived != sec {
 		t.Errorf("incorrect secret key from 12 words: got %s expecting %s", id.SecString(), sec)
 	}
 }
