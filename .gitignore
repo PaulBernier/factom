@@ -6,6 +6,7 @@ factom-walletd
 *.a
 *.so
 *.db
+*.iml
 
 # Temp files
 *~

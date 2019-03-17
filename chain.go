@@ -16,17 +16,27 @@ type Chain struct {
 	FirstEntry *Entry `json:"firstentry"`
 }
 
+//ComputeChainIDFromFields
+// Takes the binary fields that define a chainID and hashes
+// them together to create the ChainID expected by the APIs.
+// These fields are treated as binary, but could be simple text, like:
+// "Bob's" "Favorite" "Chain"
+func ComputeChainIDFromFields(fields[][]byte)[]byte {
+	hs := sha256.New()
+	for _, id := range fields {
+		h := sha256.Sum256(id)
+		hs.Write(h[:])
+	}
+	chainID := hs.Sum(nil)
+	return chainID
+}
+
 func NewChain(e *Entry) *Chain {
 	c := new(Chain)
 	c.FirstEntry = e
 
 	// create the chainid from a series of hashes of the Entries ExtIDs
-	hs := sha256.New()
-	for _, id := range e.ExtIDs {
-		h := sha256.Sum256(id)
-		hs.Write(h[:])
-	}
-	c.ChainID = hex.EncodeToString(hs.Sum(nil))
+	c.ChainID = hex.EncodeToString(ComputeChainIDFromFields(e.ExtIDs))
 	c.FirstEntry.ChainID = c.ChainID
 
 	return c
