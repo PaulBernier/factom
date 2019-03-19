@@ -93,7 +93,7 @@ func EntryCommitACK(txID, fullTransaction string) (*EntryStatus, error) {
 
 func FactoidACK(txID, fullTransaction string) (*FactoidTxStatus, error) {
 	params := ackRequest{Hash: txID, ChainID: "f", FullTransaction: fullTransaction}
-	req := NewJSON2Request("ack", APICounter(), params)
+	req := NewJSON2Request("factoid-ack", APICounter(), params)
 	resp, err := factomdRequest(req)
 	if err != nil {
 		return nil, err
