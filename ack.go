@@ -113,7 +113,7 @@ func FactoidACK(txID, fullTransaction string) (*FactoidTxStatus, error) {
 // EntryRevealACK will take the entryhash and search for the entry and the commit
 func EntryRevealACK(entryhash, fullTransaction, chainiID string) (*EntryStatus, error) {
 	params := ackRequest{Hash: entryhash, ChainID: chainiID, FullTransaction: fullTransaction}
-	req := NewJSON2Request("ack", APICounter(), params)
+	req := NewJSON2Request("entry-ack", APICounter(), params)
 	resp, err := factomdRequest(req)
 	if err != nil {
 		return nil, err
