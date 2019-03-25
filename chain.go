@@ -31,10 +31,10 @@ func ComputeChainIDFromFields(fields[][]byte)[]byte {
 	return chainID
 }
 
-// GetChainIDFromStrings
+// ComputeChainIDFromStrings
 // Take a set of strings, and compute the chainID.  If you have binary fields, you
 // can call factom.ComputeChainIDFromFields directly.
-func GetChainIDFromStrings(fields []string) []byte {
+func ComputeChainIDFromStrings(fields []string) []byte {
 	var binary [][]byte
 	for _, str := range fields {
 		binary = append(binary, []byte(str))
@@ -42,6 +42,9 @@ func GetChainIDFromStrings(fields []string) []byte {
 	return ComputeChainIDFromFields(binary)
 }
 
+// NewChain
+// Note that the chainID for the entry is computed for you here.  The ChainID of the
+// supplied entry is overwritten
 func NewChain(e *Entry) *Chain {
 	c := new(Chain)
 	c.FirstEntry = e
