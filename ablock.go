@@ -83,6 +83,7 @@ type ABlock struct {
 	DBHeight              int64     `json:"dbheight"`
 	BackReferenceHash     string    `json:"backreferencehash"`
 	LookupHash            string    `json:"lookuphash"`
+	KeyMR 				  string	`json:"keymr"`
 	ABEntries             []ABEntry `json:"abentries"`
 }
 
@@ -92,6 +93,7 @@ func (a *ABlock) String() string {
 	s += fmt.Sprintln("BackReferenceHash:", a.BackReferenceHash)
 	s += fmt.Sprintln("LookupHash:", a.LookupHash)
 	s += fmt.Sprintln("PrevBackreferenceHash:", a.PrevBackreferenceHash)
+	s += fmt.Sprintln("KeyMR:", a.KeyMR)
 	s += fmt.Sprintln("DBHeight:", a.DBHeight)
 
 	s += fmt.Sprintln("ABEntries {")
@@ -111,6 +113,7 @@ func (a *ABlock) UnmarshalJSON(js []byte) error {
 		}
 		BackReferenceHash string            `json:"backreferencehash"`
 		LookupHash        string            `json:"lookuphash"`
+		KeyMR             string            `json:"keymr"`
 		ABEntries         []json.RawMessage `json:"abentries"`
 	})
 
@@ -123,6 +126,7 @@ func (a *ABlock) UnmarshalJSON(js []byte) error {
 	a.DBHeight = tmp.Header.DBHeight
 	a.BackReferenceHash = tmp.BackReferenceHash
 	a.LookupHash = tmp.LookupHash
+	a.KeyMR = tmp.KeyMR
 
 	// Use a regular expression to match the "adminidtype" field from the json
 	// and unmarshal the ABEntry into its correct type
